@@ -10,4 +10,59 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
+DEFAULT_USER="jwilkin"
+
+# Default Editor: Sublime
+export EDITOR='subl -n -w'
+
+# Enable color in grep
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='3;33'
+
+# Xcode
+export DEVELOPER_DIR='/Applications/Xcode.app/Contents/Developer'
+
+## a quick way to get out of current directory ##
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+alias 'bk=cd $OLDPWD'
+
+# -------------------------------------------------------------------
+# directory information
+# -------------------------------------------------------------------
+alias lh='ls -d .*' # show hidden files/directories only
+alias lsd='ls -aFhlG'
+alias l='ls -al'
+alias ls='ls -GFh' # Colorize output, add file type indicator, and put sizes in human readable format
+alias ll='ls -GFhl' # Same as above, but in long listing format
+alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+alias 'dus=du -sckx * | sort -nr' #directories sorted by size
+
+alias 'wordy=wc -w * | sort | tail -n10' # sort files in current directory by the number of words they contain
+alias 'filecount=find . -type f | wc -l' # number of files (not directories)
+
+alias symbolicatecrash='/Applications/Xcode.app/Contents/SharedFrameworks/DVTFoundation.framework/Versions/A/Resources/symbolicatecrash'
+
+alias isym='atos -arch armv7 -o'
+alias rmpyc='find . -name \*.pyc -delete'
+
+# -------------------------------------------------------------------
+# any function from http://onethingwell.org/post/14669173541/any
+# search for running processes
+# -------------------------------------------------------------------
+any() {
+    emulate -L zsh
+    unsetopt KSH_ARRAYS
+    if [[ -z "$1" ]] ; then
+        echo "any - grep for process(es) by keyword" >&2
+        echo "Usage: any " >&2 ; return 1
+    else
+        ps xauwww | grep -i --color=auto "[${1[1]}]${1[2,-1]}"
+    fi
+}
+
+export PATH=$PATH:/usr/local/sbin
